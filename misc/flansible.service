@@ -1,0 +1,17 @@
+[Unit]
+Description=flansible daemon
+#After=network.target
+
+[Service]
+Type=oneshot
+User=flansible
+Group=users
+WorkingDirectory=/opt/flansible
+Environment="PATH=/opt/flansible/venv/bin"
+ExecStart=/opt/flansible/bin/start-flansible.sh
+RemainAfterExit=true
+ExecStop=/opt/flansible/bin/stop-flansible.sh
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target
