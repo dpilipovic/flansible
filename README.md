@@ -1,10 +1,16 @@
 # flansible
 
 I ❤ Ansible a lot. Like a lot. I also ❤ Flask. 
-So once the need and an oportunity came up I've decided to create my own Flask powered Ansible UI, and threw in an API as well.
-Main idea behind it was to popularize use of Ansible for automation tasks within my place of employment. With this in mind it became super easy for NOC people in the night shift to be able to restart and act upon various otherwise complex set of operations with a simple click of the button.
 
-It also became easy to better utilize Ansible in CI/CD by making a simple API call when the new deployment code is ready to call upon a playbook. Lastly we could also automate things further by writing apps that would pick up an alert from monitoring and automatically restart an application without waking anybody up.
+So once the need and an oportunity came up I've decided to create my own Flask powered Ansible UI, and threw in an API as well.
+
+Main idea behind it was to popularize use of Ansible for automation tasks within my place of employment. 
+
+With this in mind it became super easy for NOC people in the night shift to be able to restart and act upon various otherwise complex set of operations with a simple click of the button.
+
+It also became easy to better utilize Ansible in CI/CD by making a simple API call when the new deployment code is ready to call upon a playbook. 
+
+Lastly we could also automate things further by writing apps that would pick up an alert from monitoring and automatically restart an application without waking anybody up.
 
 What this application offers is: 
 
