@@ -1,0 +1,14 @@
+LICENSE
+MANIFEST.in
+README.rst
+VERSION
+setup.cfg
+setup.py
+flask_ldap3_login/__init__.py
+flask_ldap3_login/forms.py
+flask_ldap3_login.egg-info/PKG-INFO
+flask_ldap3_login.egg-info/SOURCES.txt
+flask_ldap3_login.egg-info/dependency_links.txt
+flask_ldap3_login.egg-info/not-zip-safe
+flask_ldap3_login.egg-info/requires.txt
+flask_ldap3_login.egg-info/top_level.txt

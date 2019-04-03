@@ -1,0 +1,33 @@
+# This is a place to configure all of your buttons. Each button/operation has 4 required key-value pairs: button_name, button_description, _cmd and _id.
+# In adition there is an optional value of: api
+# button_name is the name that will be shown in the button on the home page
+# button_description is the description for this action that will show up next to the button on the home page
+# _id is the most important configuration parameter. It should be a unique alpabetical value without any spaces. It is passed to each operation, and according to _id value commands are triggered.
+# _id also has a secondary purpose that it is the API call endpoint - post calls will execute the playbooks via API call and GET calls will describe/list details about it from this same file.
+# _cmd is the ansible comand as you would run it on ansible server
+# api is optional if api: 'True' API call for thise _id will be ebabled, otherwise it is disabled.
+#
+---
+  -
+        button_name: "Test"
+        button_description: "Just for testing - does some harmless stuff on Test portals."
+        _cmd: "sudo /bin/ansible-playbook -i /opt/ansible/inventory.txt /opt/ansible/automated_scheduled_restarts/test/test.yml"
+        _id: 'Test'
+        api: 'True'
+  -
+        button_name: "Restart Test2"
+        button_description: "Restarts Test2 portals one by one and validates application."
+        _cmd: "sudo /bin/ansible-playbook -i /opt/ansible/inventory.txt /opt/ansible/automated_scheduled_restarts/test2/test2-restart.yml"
+        _id: 'Test2'
+        api: 'True'
+  -
+        button_name: "Restart Prod Test"
+        button_description: "Restarts Prod Test servers one by one gracefully and then starts them back up, waits for application to come up on first one before stopping second one."
+        _cmd: "sudo /bin/ansible-playbook -i /opt/ansible/inventory.txt  /opt/ansible/automated_scheduled_restarts/Prod-Test/prodTest-restart.yml"
+        _id: 'TestProd'
+        api: 'True'
+  -
+        button_name: "Restart All backend services"
+        button_description: "Use only when everything is down and you want to quickly attempt to restore services. It restarts everything!!!."
+        _cmd: "sudo /bin/ansible-playbook -i /opt/ansible/inventory.txt  /opt/ansible/Allrestart/all-restart.yml"
+        _id: 'All'

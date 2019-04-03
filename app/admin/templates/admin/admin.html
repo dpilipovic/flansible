@@ -1,0 +1,290 @@
+<html>
+ <head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" integrity="sha384-v2Tw72dyUXeU3y4aM2Y0tBJQkGfplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/fontawesome.css" integrity="sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <meta charset="utf-8">
+
+</head>
+   <body>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <!-- <strong>Title</strong> --> {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <div>
+    <nav class="navbar navbar-dark bg-dark">
+      <img src="/static/images/Logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+      <a class="navbar-brand" href="#" data-toggle="modal" id="navbar_admin_btn" value="navbar_admin_btn" data-target="#admin-reset">Reset Admin password</a>
+      <a class="navbar-brand" href="{{url_for('restapi.register_api')}}">API</a>
+      <a class="navbar-brand" href="{{url_for('ui.index')}}">Home</a>
+      <a class="navbar-brand" href="{{url_for('ui.logout')}}">Logout</a>
+     </nav>
+  </div>
+
+<br>
+<br>
+
+
+
+<div>
+<table class="table table-striped">
+     <tr class="Header">
+        <th>Select:</th>
+        <th>API username:</th>
+        <th>Email address:</th>
+        <th>Notification:</th>
+        <th>LDAP User:</th>
+        <th>Created:</th>
+        <th>Modified:</th>
+      </tr>
+      <form name="table-form" method="POST">
+      {% for user in apiusers %}
+        <tr>
+        <td> <input type="checkbox" class="record" name="checked[]" value="{{ user.id }}"> </td>
+        <td>{{user.username}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.notify}}</td>
+        <td>{{user.ldap_user}}</td>
+        <td>{{user.created}}</td>
+        <td>{{user.updated}}</td>
+        <td>
+              <i class="fas fa-edit" data-toggle="modal" data-target="#edit-modal" data-id="{{ user.id }}" data-username="{{ user.username }}" data-email="{{ user.email }}" data-notify="{{ user.notify }}" title="Edit user"></i>
+        </td>
+        <td>
+              <i class="fas fa-user-times" data-toggle="modal" id="{{ user.id }}" data-target="#confirm_modal" onclick="aPassValueFunction(this)" title="Delete user"></i>
+        </td>
+        </tr>
+      {% endfor %}
+      <input type="checkbox" id="checkAll"/>Select All
+      <a data-toggle="modal" class="btn btn-primary" id="btn_multidelete" value="btn_display_value" data-target="#multiconfirm-modal"> Delete selected</a>
+      <br>
+<!--      <button type="submit" class="btn btn-default btn-sm"/>Delete selected</button> -->
+      </form>
+  </table>
+</div>
+
+<!-- Modal for Confirm Deletion popup-->
+<div class="modal" tabindex="-1" role="dialog" id="confirm-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this API user?</p>
+      </div>
+      <div class="modal-footer align-items-start">
+        <form action="{{ url_for('admin.delete_user') }}" method="POST">
+        <input name="pass_value" type="hidden" value="pass_value" id="hidden_input">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <input class="btn btn-secondary" type="submit" name="submit_button" value="Confirm">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- This script allows value of id to be passed from button onclick to the confirm-modal -->
+        <script>
+            function aPassValueFunction(obj){
+                let valuefromID = obj.id;
+                $('#hidden_input').val(valuefromID);
+                $("#confirm-modal").modal("show");
+            }
+        </script>
+
+<!-- Modal for Editing users popup-->
+<div class="modal" tabindex="-1" role="dialog" id="edit-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit API user</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+              </div>
+              <div class="modal-footer d-flex justify-content-start">
+                <form action="{{ url_for('admin.edit_user') }}" method="POST">
+                <input name="pass_id_value" type="hidden" id="hidden_id_input">
+                <div class="form-group">
+                <label for="username" class="control-label">API Username (5-20 chars):</label>
+                <input type="text" class="form-control" id="username" name="pass_username">
+                </div>
+                <div class="form-group">
+                <label for="email" class="control-label">Email Address:</label>
+                <input type="text" class="form-control" id="email" name="pass_email">
+                </div>
+                <div class="form-group">
+                <label for="notify" class="control-label">Notify:</label>
+                <input type="text" class="form-control" id="notify" name="pass_notify">
+                </div>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <input class="btn btn-secondary" type="submit" name="submit_button" value="Confirm">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+<!-- This script allows values to be populated from table onclick to the edit-modal -->
+<script>
+$('#edit-modal').on('show.bs.modal', function(e) {
+  var idvalue = e.relatedTarget.dataset.id;
+  $('#hidden_id_input').val(idvalue)
+  var usernamevalue = e.relatedTarget.dataset.username;
+  $('#username').val(usernamevalue)
+  var emailvalue = e.relatedTarget.dataset.email;
+  $('#email').val(emailvalue)
+  var notifyvalue = e.relatedTarget.dataset.notify;
+  $('#notify').val(notifyvalue)
+});
+</script>
+
+<!-- This script checks all records when Select all is checked -->
+<script>
+$('#checkAll').click(function () {
+    $('input:checkbox').prop('checked', this.checked);
+});
+</script>
+
+<!-- Modal for Confirm Multi-Delete popup-->
+<div class="modal" tabindex="-1" role="dialog" id="multiconfirm-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete these API users?</p>
+      </div>
+      <div class="modal-footer align-items-start">
+        <form action="{{ url_for('admin.multidelete') }}" method="POST">
+        <input name="pass_checkedvalue" type="hidden" value="pass_checkedvalue" id="hidden_checkedinput">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <input class="btn btn-secondary" type="submit" name="submit_button" value="Confirm">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- This script allows checked values to be passed to multi-confirm modal  -->
+<script>
+$('#multiconfirm-modal').on('show.bs.modal', function(e) {
+  var checkedValues = $('.record:checked').map(function(){ return this.value; }).get();
+  //put the ids in the hidden input as a comma separated string
+  $('#hidden_checkedinput').val(checkedValues.join(','));
+});
+</script>
+
+
+<!-- Modal for Admin password reset popup-->
+<div class="modal" tabindex="-1" role="dialog" id="admin-reset">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Reset Admin credentials</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+              </div>
+              <div class="modal-footer d-flex justify-content-start">
+                <form action="{{ url_for('admin.admin_reset') }}" id="adminreset" name="adminreset" method="POST">
+                <div class="form-group">
+                <label for="username" class="control-label">Current Admin password:</label>
+                <input type="password" class="form-control" id="current_pwd" name="current_pwd">
+                </div>
+                <div class="form-group">
+                <label for="pass1" class="control-label">New Admin password:</label>
+                <input type="password" class="form-control" id="pass1" name="pass1">
+                </div>
+                <div class="form-group">
+                <label for="pass2" class="control-label">Confirm new password:</label>
+                <input type="password" class="form-control" id="pass2" name="pass2">
+                </div>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <input class="btn btn-secondary" type="submit" name="submit_button" value="Confirm">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+<!-- This script validates that new admin password and confirm new password values are the same  -->
+<style>
+   #form label{float:left; width:140px;}
+   #error_msg{color:red; font-weight:bold;}
+</style>
+
+<script>
+   $(document).ready(function(){
+       var $submitBtn = $("#adminreset input[type='submit']");
+       var $passwordBox = $("#pass1");
+       var $confirmBox = $("#pass2");
+       var $errorMsg =  $('<span id="error_msg">Passwords do not match.</span>');
+
+       // This is incase the user hits refresh - some browsers will maintain the disabled state of the button.
+       $submitBtn.removeAttr("disabled");
+
+       function checkMatchingPasswords(){
+           if($confirmBox.val() != "" && $passwordBox.val != ""){
+               if( $confirmBox.val() != $passwordBox.val() ){
+                   $submitBtn.attr("disabled", "disabled");
+                   $errorMsg.insertAfter($confirmBox);
+               }
+           }
+       }
+
+       function resetPasswordError(){
+           $submitBtn.removeAttr("disabled");
+           var $errorCont = $("#error_msg");
+           if($errorCont.length > 0){
+               $errorCont.remove();
+           }
+       }
+
+
+       $("#pass2, #pass1")
+            .on("keydown", function(e){
+               /* only check when the tab or enter keys are pressed
+                * to prevent the method from being called needlessly  */
+               if(e.keyCode == 13 || e.keyCode == 9) {
+                   checkMatchingPasswords();
+               }
+            })
+            .on("blur", function(){
+               // also check when the element looses focus (clicks somewhere else)
+               checkMatchingPasswords();
+           })
+           .on("focus", function(){
+               // reset the error message when they go to make a change
+               resetPasswordError();
+           })
+
+   });
+ </script>
+
+  </body>
+</html>
