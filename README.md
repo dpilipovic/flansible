@@ -275,7 +275,7 @@ https://github.com/thomsonreuters/nginx-sticky-module-ng
 ```
 
 
-Once setup you can refer to nginx.conf file under the bin directory. Sample nginx.conf also does rewriting from http to https and requires a valid SSL certificate and key, and has NGINX serve the static files.
+Once setup you can refer to nginx.conf file under the misc directory. Sample nginx.conf also does rewriting from http to https and requires a valid SSL certificate and key, and has NGINX serve the static files.
 
 
 ## USING APPLICATION:
