@@ -1,6 +1,8 @@
 # flansible
 
-I ❤ Ansible a lot. Like a lot. I also ❤ Flask. 
+I ❤ Ansible a lot. Like a lot. 
+
+I also ❤ Flask. 
 
 So once the need and an oportunity came up I've decided to create my own Flask powered Ansible UI, and threw in an API as well.
 
