@@ -264,7 +264,7 @@ https://docs.gunicorn.org/en/latest/deploy.html
 
 In adittion to that Gunicorn does not support sticky sessions, which is a problem when attempting to run Flansible with multiple gunicorn workers. 
 
-Solution for all this is to start multiple gunicorn processes running on different ports (see start script in the bin directory), and then tie those ports to NGINX which will handle sticky sessions as well.
+Solution for all this is to start multiple gunicorn processes running on different ports (see start script in the bin directory), and then have NGINX proxy handle sticky sessions in front of it.
 
 However NGINX actually requires an extra module NGINX-STICKY-MODULE-NG to be added to it and recompiled from source.
 
