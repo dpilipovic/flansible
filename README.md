@@ -135,7 +135,7 @@ pip list
 You can start the application now to test, via gunicorn UWSGI web server as such:
 
 ```
-/opt/flansible/venv/bin/python /opt/ansibleui/venv/bin/gunicorn -b 0.0.0.0:5000 -k gevent --worker-connections 1000 --timeout 900 run:app -D
+/opt/flansible/venv/bin/python /opt/flansible/venv/bin/gunicorn -b 0.0.0.0:5000 -k gevent --worker-connections 1000 --timeout 900 run:app -D
 ```
 
 And go via browser to a port 5000 on your server and login page should load.
