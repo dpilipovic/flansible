@@ -36,7 +36,7 @@ LDAP_BIND_USER_PASSWORD = "secret"
 # The RDN attribute for your user schema on LDAP
 LDAP_USER_RDN_ATTR = "CN"
 # HERE you define LDAP AD group that can log in to your application!
-LDAP_LOGIN_GROUP = "AnsibleUIAdmins"
+LDAP_LOGIN_GROUP = "AnsibleAdmins"
 LOGIN_GROUP_FULL_DN = str.join('', (LDAP_USER_RDN_ATTR, '=', LDAP_LOGIN_GROUP, ',', LDAP_GROUP_DN, ',', LDAP_BASE_DN))
 #
 #
