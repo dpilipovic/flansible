@@ -7,7 +7,7 @@ SECRET_KEY = "secret"
 #
 #
 # LOGGING CONFIG
-APP_PATH = "/opt/ansibleui/flansible/"
+APP_PATH = "/opt/flansible/app/"
 LOG_FILE = "server.log"
 #
 #
@@ -16,7 +16,7 @@ MAILRELAY = "smtp.example.com"
 MAIL_PORT = "25"
 EMAIL_SENDER = "no-reply@example.com"
 # APP_URL will show up in emails as a link and COMPANY_INFO will be included in email template
-APP_URL = "https://ansible.example.com"
+APP_URL = "https://flansible.example.com"
 COMPANY_INFO = "Example Inc., 123 Main St., San Francisco CA 94104"
 #
 # LDAP CONFIGS
@@ -36,7 +36,7 @@ LDAP_BIND_USER_PASSWORD = "secret"
 # The RDN attribute for your user schema on LDAP
 LDAP_USER_RDN_ATTR = "CN"
 # HERE you define LDAP AD group that can log in to your application!
-LDAP_LOGIN_GROUP = "AnsibleAdmins"
+LDAP_LOGIN_GROUP = "FlansibleAdmins"
 LOGIN_GROUP_FULL_DN = str.join('', (LDAP_USER_RDN_ATTR, '=', LDAP_LOGIN_GROUP, ',', LDAP_GROUP_DN, ',', LDAP_BASE_DN))
 #
 #
@@ -46,8 +46,8 @@ LOGIN_GROUP_FULL_DN = str.join('', (LDAP_USER_RDN_ATTR, '=', LDAP_LOGIN_GROUP, '
 #
 #
 ANSIBLE_HOST = "ansibleserver.example.com"
-ANSIBLE_USER = "ansibleui"
-ANSIBLE_KEY = "/opt/app/flansible/id_rsa"
+ANSIBLE_USER = "flansible"
+ANSIBLE_KEY = "/opt/flansible/app/id_rsa"
 #
 #
 # DATABASE settings
