@@ -1,31 +1,33 @@
-# flansible
+# FLANSIBLE
 
 I ❤ Ansible a lot. Like a lot. 
 
 I also ❤ Flask. 
 
-So once the need and an oportunity came up I've decided to create my own Flask powered Ansible UI, and threw in an API as well.
+So once the need and oportunity came up I've decided to create my own Flask powered Ansible UI and API.
 
 Main idea behind it was to popularize use of Ansible for automation tasks within my place of employment. 
 
-With this in mind it became super easy for NOC people in the night shift to be able to restart and act upon various otherwise complex set of operations with a simple click of the button.
+With this in mind it became super easy for NOC people in the night shift to act upon various otherwise complex set of operations with a simple click of the button.
 
-It also became easy to better utilize Ansible in CI/CD by making a simple API call when the new deployment code is ready to call upon a playbook. 
+It also became easy to better utilize Ansible in CI/CD by making an API call when the new deployment code is ready to call upon a playbook execution. 
 
-Lastly we could also automate things further by writing apps that would pick up an alert from monitoring and automatically restart an application without waking anybody up.
+Lastly we could also automate things further by writing scripts/apps that would pick up an alert from monitoring and automatically restart an application without waking anybody up.
 
 What this application offers is: 
 
-UI with an easy to configure buttons to execute Ansible playbooks and watch their output.
+UI with an easy to configure buttons to execute Ansible playbooks and watch their output in a simmilar way like when running it in console.
 
-UI uses LDAP for login of authorized users. These users can register their own API users.
+UI uses LDAP to login authorized users. These users can register their own API users.
 
 Rest API which allows playbooks to be executed via API calls.
 
 
 It is outside of the scope of this application: 
 
-Validation/testing off playbooks. Assumption is that you will already test/validate and setup playbooks separately.
+Validation/testing of playbooks. 
+
+Assumption is that you will already test/validate and setup playbooks separately.
 
 There are no separate privilege levels between users, meaning that all authorized users will have access to all configured buttons.
 
@@ -34,9 +36,11 @@ There are no separate privilege levels between users, meaning that all authorize
 
 There are two ways to install the app. You can either grab a docker image from dockerhub (link to follow), or you can grab the code from this github repository.
 
+For docker image - application was built upon python3:alpine image.
 If you are using docker image, you can skip to configuration section.
 
-Our production setup is on Centos7, so instructions provided here are for this environment, but in general they apply for any linux distribution having in mind the difference in package install and commands.
+
+Our production setup is on Centos7, so instructions provided here are for this environment, but in general they apply for any linux distro although you would use a different package manager.
 
 ### PYTHON3.6:
 
@@ -250,7 +254,7 @@ api is optional if api: 'True' API call for this _id will be enabled, otherwise 
 
 ### NGINX web server
 
-Gunicorn strongly recommends placing it behind proxy web server, and using NGINX for it. 
+Gunicorn strongly recommends placing it behind a proxy web server, and using NGINX for it. 
 
 You can find more details at this link here:
 
@@ -258,20 +262,21 @@ You can find more details at this link here:
 https://docs.gunicorn.org/en/latest/deploy.html
 ```
 
-In adittion to that Gunicorn does not support sticky sessions, which is a problem when attempting to run Flansible with multiple workers. 
+In adittion to that Gunicorn does not support sticky sessions, which is a problem when attempting to run Flansible with multiple gunicorn workers. 
 
 Solution for all this is to start multiple gunicorn processes running on different ports (see start script in the bin directory), and then tie those ports to NGINX which will handle sticky sessions as well.
 
 However NGINX actually requires an extra module NGINX-STICKY-MODULE-NG to be added to it and recompiled from source.
 
-Module can be downloaded here:
+Instructions on how to recompile NGINX can be found online, and module in question can be downloaded here:
 
 ```
 https://github.com/thomsonreuters/nginx-sticky-module-ng
 ```
 
 
-Once setup you can refer to nginx.conf file under misc directory.
+Once setup you can refer to nginx.conf file under the bin directory. Sample nginx.conf also does rewriting from http to https and requires a valid SSL certificate and key, and has NGINX serve the static files.
+
 
 ## USING APPLICATION:
 
