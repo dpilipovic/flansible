@@ -17,7 +17,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 from app.conf.config import APP_PATH, LOG_FILE
-#from app.logger import handler
 
 app = flask.Flask(__name__)
 Bootstrap(app)
