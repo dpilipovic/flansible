@@ -26,18 +26,24 @@ Our production setup is on Centos7, so instructions provided here are for this e
 
 First, we need to install python3.6 as well as pip that corresponds to it.
 Setup EPEL repository:
-```yum install epel-release```
+```
+yum install epel-release
+```
 Install python3 packages from EPEL:
-```yum install python36 python36-libs python36u-pip python36u-setuptools python36-devel python-rpm-macros python-srpm-macros python36-pip python36-setuptools```
+```
+yum install python36 python36-libs python36u-pip python36u-setuptools python36-devel python-rpm-macros python-srpm-macros python36-pip python36-setuptools
+```
 
 CentOS image already comes with python2.7, actually yum package installer depends on it, so one way around it is to make python3 default, but change yum config files:
-```unlink /usr/bin/python
+```
+unlink /usr/bin/python
 
 ln -s /usr/bin/python3.6 /usr/bin/python
 ```
 
 Edit the following 2 files:
-```/usr/bin/yum
+```
+/usr/bin/yum
 
 /usr/libexec/urlgrabber-ext-down
 ```
@@ -51,21 +57,30 @@ To make it less confusing regarding python2.7, you can add an alias to make pyth
 ### CODE AND REQUIREMENTS:
 
 Now grab the code from github repository. I suggest placing it under /opt/flansible directory, although feel free to place in your own structure. Within the directory, on a same level with run.py and requirements.txt, we want to create a python virtual environment:
-```cd /opt/flansible
+```
+cd /opt/flansible
 python -m venv venv
 ```
 
 Activate it:
-```source venv/bin/activate```
+```
+source venv/bin/activate
+```
 
 and within it install all of the python modules we need:
-```venv/bin/pip install -r requirements.txt```
+```
+venv/bin/pip install -r requirements.txt
+```
 Make sure that these are present with pip list command.
-```deactivate```
+```
+deactivate
+```
 And then run pip list again, to make sure that modules within venv are not globally shared. 
 
 You can start the application now to test, via gunicorn UWSGI web server as such:
-```/opt/flansible/venv/bin/python /opt/ansibleui/venv/bin/gunicorn -b 0.0.0.0:5000 -k gevent --worker-connections 1000 --timeout 900 run:app -D```
+```
+/opt/flansible/venv/bin/python /opt/ansibleui/venv/bin/gunicorn -b 0.0.0.0:5000 -k gevent --worker-connections 1000 --timeout 900 run:app -D
+```
 
 And go via browser to a port 5000 on your server and login page should load.
 In case you decide to use different directory structure, one thing you will need to update is APP_PATH under app/conf/config.py file, as application will not start in case the directory specified there does not exist.
@@ -83,7 +98,8 @@ Config.py is the main configuration file for the application.
 As a first thing you should change both SECRET_KEY and JWT_SECRET_KEY to some random values.
 Generally accepted way of generating these is to go to python shell and run: 
 
-```>>> import os
+```
+>>> import os
 
 >>> os.urandom(24)
 ```
@@ -97,13 +113,18 @@ As for Email configs, use your own mail relay. Unless you want to send automatic
 #### ANSIBLE SSH CONFIG
 
 Regarding Ansible configs – the application is configured to run on its own system and needs to be able to communicate to ansible server. For this you need to add a user on your ansible server, called flansible and give it bash access. Additionally, it needs to be added into the sudoers file as in:
-```flansible      ALL=(ALL) NOPASSWD:ALL```
+```
+flansible      ALL=(ALL) NOPASSWD:ALL
+```
 This will allow this user to sudo without getting prompted for password. Here we rely on public-private key combination rather than password. If you are using password authentication on your ansible server, you can add this at the bottom of your ansible servers /etc/ssh/sshd_config:
-```Match User flansible
+```
+Match User flansible
                  PasswordAuthentication no
 ```
  Back on the flansible host, generate an ssh key:
-  ```ssh-keygen -t rsa ```
+ ```
+ ssh-keygen -t rsa 
+ ```
 and place the files under /opt/flansible/app/
 Take the pub key and copy it. On ansible server, under newly added flansible user’s home directory, create subdirectory .ssh and place the contents of public key there under a file called authorized_keys.
 Test that you can ssh from flansible host to ansible server as a flansible user.
@@ -112,7 +133,7 @@ Test that you can ssh from flansible host to ansible server as a flansible user.
 
 I am not an expert in Active Directory by any means, and if you are like me, LDAP settings might seem as the biggest obstacle in configuration. It is true that you will need a help from your AD administrator to create a new AD group that will contain authorized users which can login. Also they will need to provide you with a Service Account with which you will query the domain, However, the rest of it is straight-forward. Basically, you just need to figure out the structure of your Active Directory leading to the group that AD administrators create.  That is the order of containers to which that group belongs. 
 Helpful command in this regard is dsquery, which exists on any windows server joined to the domain in question.  Once you figure out the exact layout, you can take that and separate into BASE_DN and USER_DN/GROUP_DN.  You can also find more documentation on LDAP3_LOGIN library docs: https://flask-ldap3-login.readthedocs.io/en/latest/index.html 
-To debug further from an application side, you can add print(data) in line 56 in application/__init__.py within save_user function.
+To debug further from an application side, you can add print(data) in line 56 in app/__init__.py within save_user function.
 
 ### BUTTONS.YML
 
