@@ -4,19 +4,19 @@ I ❤ Ansible a lot. Like a lot.
 
 I also ❤ Flask. 
 
-So once the need and oportunity came up I've decided to create my own Flask powered Ansible UI and API.
+So once the need and opportunity came up I've decided to create my own Flask powered Ansible UI and API.
 
 Main idea behind it was to popularize use of Ansible for automation tasks within my place of employment. 
 
-With this in mind it became super easy for NOC people in the night shift to act upon various otherwise complex set of operations with a simple click of the button.
+It became super easy for NOC people in the night shift to act upon various otherwise complex set of operations with a simple click of the button.
 
 It also became easy to better utilize Ansible in CI/CD by making an API call when the new deployment code is ready to call upon a playbook execution. 
 
-Lastly we could also automate things further by writing scripts/apps that would pick up an alert from monitoring and automatically restart an application without waking anybody up.
+Lastly, we could also automate things further by writing scripts/apps that would pick up an alert from monitoring and automatically restart an application without waking anybody up.
 
-What this application offers is: 
+What this application offers are: 
 
-UI with an easy to configure buttons to execute Ansible playbooks and watch their output in a simmilar way like when running it in console.
+UI with an easy to configure buttons to execute Ansible playbooks and watch their output in a similar way like when running it in console.
 
 UI uses LDAP to login authorized users. These users can register their own API users.
 
@@ -32,7 +32,7 @@ Assumption is that you will already test/validate and setup playbooks separately
 There are no separate privilege levels between users, meaning that all authorized users will have access to all configured buttons.
 
 
-## INSTALLATION:
+## INSTALATION:
 
 There are two ways to install the app. You can either grab a docker image from dockerhub (link to follow), or you can grab the code from this github repository.
 
@@ -242,7 +242,7 @@ button_name is the name that will be shown in the button on the home page
 
 button_description is the description for this action that will show up next to the button on the home page
 
-_id is the most important configuration parameter. It should be a unique alpabetical value without any spaces. 
+_id is the most important configuration parameter. It should be a unique alphabetical value without any spaces. 
 
 It is passed to each operation, and according to _id value commands are triggered.
 
@@ -262,7 +262,7 @@ You can find more details at this link here:
 https://docs.gunicorn.org/en/latest/deploy.html
 ```
 
-In adittion to that Gunicorn does not support sticky sessions, which is a problem when attempting to run Flansible with multiple gunicorn workers. 
+In addition to that Gunicorn does not support sticky sessions, which is a problem when attempting to run Flansible with multiple gunicorn workers. 
 
 Solution for all this is to start multiple gunicorn processes running on different ports (see start script in the bin directory), and then have NGINX proxy handle sticky sessions in front of it.
 
