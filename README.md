@@ -15,14 +15,14 @@ Validation/testing off playbooks. Assumption is that you will already test/valid
 There are no separate privilege levels between users, meaning that all authorized users will have access to all configured buttons.
 
 
-# INSTALLATION:
+## INSTALLATION:
 
 There are two ways to install the app. You can either grab a docker image from dockerhub (link to follow), or you can grab the code from this github repository.
 If you are using docker image, you can skip to configuration section.
 
 Our production setup is on Centos7, so instructions provided here are for this environment, but in general they apply for any linux distribution having in mind the difference in package install and commands.
 
-## PYTHON3.6:
+### PYTHON3.6:
 
 First, we need to install python3.6 as well as pip that corresponds to it.
 Setup EPEL repository:
@@ -42,7 +42,7 @@ Pip tool was also changed, in python3 it was moved into the python code, so corr
 To make it less confusing regarding python2.7, you can add an alias to make python3.6 pip as default via command:
 `python -m ensurepip --default-pip`
 
-## CODE AND REQUIREMENTS:
+### CODE AND REQUIREMENTS:
 
 Now grab the code from github repository. I suggest placing it under /opt/flansible directory, although feel free to place in your own structure. Within the directory, on a same level with run.py and requirements.txt, we want to create a python virtual environment:
 `cd /opt/flansible`
@@ -61,11 +61,11 @@ You can start the application now to test, via gunicorn UWSGI web server as such
 And go via browser to a port 5000 on your server and login page should load.
 In case you decide to use different directory structure, one thing you will need to update is APP_PATH under conf/config.py file, as application will not start in case the directory specified there does not exist.
 
-# CONFIGURATION:
+## CONFIGURATION:
 
 There are 2 main files that need to be configured, and both are located under conf directory: config.py and buttons.yml.
 
-## CONFIG.PY
+### CONFIG.PY
 
 Config.py is the main configuration file for the application. 
 As a first thing you should change both SECRET_KEY and JWT_SECRET_KEY to some random values.
@@ -89,7 +89,7 @@ I am not an expert in Active Directory by any means, and if you are like me, LDA
 Helpful command in this regard is dsquery, which exists on any windows server joined to the domain in question.  Once you figure out the exact layout, you can take that and separate into BASE_DN and USER_DN/GROUP_DN.  You can also find more documentation on LDAP3_LOGIN library docs: https://flask-ldap3-login.readthedocs.io/en/latest/index.html 
 To debug further from an application side, you can add print(data) in line 56 in application/__init__.py within save_user function.
 
-## BUTTONS.YML
+### BUTTONS.YML
 
 Once this is all setup, you need to look into configuring buttons.yml file.
 This is where the Ansible Playbooks you want to add are setup.
@@ -102,9 +102,9 @@ _id also has a secondary purpose that it is the API call endpoint - post calls w
 _cmd is the ansible comand as you would run it on ansible server
 api is optional if api: 'True' API call for this _id will be enabled, otherwise it is disabled.
 
-## NGINX web server
+### NGINX web server
 
-# USING APPLICATION:
+## USING APPLICATION:
 
 So how does it all function? LDAP users belonging to the authorized group can login to UI, where they get a home page on which buttons are loaded. Hitting any of these buttons executes a playbook and shows the output on a screen. Upon its completion users can download logfiles, or email the logfiles to multiple recipients. All runs are logged into the Run History page from where logs can bee seen as well. 
 API page is the page for registering API users. Each LDAP user can register a MAX_APIUSERS from config.py. In addition to username user’s need to provide email address when registering API users. You can also select to receive emails with playbook runlogs whenever an API call finished executing a playbook. User’s can reset the API user’s password, as long as it belong to them, all other operations are done within Admin page.
