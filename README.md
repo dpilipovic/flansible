@@ -31,10 +31,10 @@ yum install epel-release
 ```
 Install python3 packages from EPEL:
 ```
-yum install python36 python36-libs python36u-pip python36u-setuptools python36-devel python-rpm-macros python-srpm-macros python36-pip python36-setuptools
+yum install python36 python36-libs python36u-pip python36u-setuptools python36-devel python-rpm-macros python-srpm-macros python36-pip python36-setuptools git
 ```
 
-CentOS image already comes with python2.7, actually yum package installer depends on it, so one way around it is to make python3 default, but change yum config files:
+CentOS image already comes with python2.7, actually yum package installer depends on it, so one way around it is to make python3 default, but change yum config files to use 2.7 instead:
 ```
 unlink /usr/bin/python
 
@@ -48,15 +48,32 @@ Edit the following 2 files:
 /usr/libexec/urlgrabber-ext-down
 ```
 
-And in both change shebang line from #! /usr/bin/python to: #! /usr/bin/python2.7
-Pip tool was also changed, in python3 it was moved into the python code, so correct way of calling it niw is: 
-```python3.6 -m pip```
+And in both change shebang line from:
+```
+#! /usr/bin/python
+```
+to: 
+```
+#! /usr/bin/python2.7
+```
+
+Pip tool was also changed, in python3 it was moved into the python code, so correct way of calling it now is: 
+```
+python3.6 -m pip
+```
 To make it less confusing regarding python2.7, you can add an alias to make python3.6 pip as default via command:
-```python -m ensurepip --default-pip```
+```
+python -m ensurepip --default-pip
+```
 
 ### CODE AND REQUIREMENTS:
 
-Now grab the code from github repository. I suggest placing it under /opt/flansible directory, although feel free to place in your own structure. Within the directory, on a same level with run.py and requirements.txt, we want to create a python virtual environment:
+Now grab the code from github repository. 
+``` 
+git pull https://github.com/dpilipovic/flansible.git
+```
+
+I suggest placing it under /opt/flansible directory, although feel free to setup in your own structure. Within the directory, on a same level with app directory , run.py and requirements.txt, we want to create a python virtual environment:
 ```
 cd /opt/flansible
 python -m venv venv
@@ -72,10 +89,13 @@ and within it install all of the python modules we need:
 venv/bin/pip install -r requirements.txt
 ```
 Make sure that these are present with pip list command.
-```
-deactivate
-```
 And then run pip list again, to make sure that modules within venv are not globally shared. 
+
+```
+pip list
+deactivate
+pip list
+```
 
 You can start the application now to test, via gunicorn UWSGI web server as such:
 ```
