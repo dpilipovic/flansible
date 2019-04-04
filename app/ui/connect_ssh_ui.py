@@ -1,4 +1,4 @@
-"""SSH test and execute playlist functions for UI and API"""
+"""SSH test and execute playlist functions for UI"""
 import logging
 from datetime import datetime
 import tzlocal
