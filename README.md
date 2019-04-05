@@ -101,7 +101,7 @@ python -m ensurepip --default-pip
 Now grab the code from github repository. 
 
 ``` 
-git pull https://github.com/dpilipovic/flansible.git
+git clone https://github.com/dpilipovic/flansible.git
 ```
 
 I suggest placing it under /opt/flansible directory, although feel free to setup in your own structure. Within the directory, on a same level with app directory , run.py and requirements.txt, we want to create a python virtual environment:
@@ -298,7 +298,7 @@ You can also select to receive emails with playbook runlogs whenever an API call
 
 User’s can reset the API user’s password, as long as it belong to them, all other operations are done within Admin page.
 
-Default Admin login is: admin changeme. One logged into Admin page you can reset the Admin password. 
+Default Admin login is: admin changeme. Once logged into Admin page you can reset the Admin password. 
 
 Admin interface allows you to delete or edit Api users. 
 
