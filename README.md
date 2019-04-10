@@ -34,11 +34,26 @@ There are no separate privilege levels between users, meaning that all authorize
 
 ## INSTALATION:
 
-There are two ways to install the app. You can either grab a docker image from dockerhub (link to follow), or you can grab the code from this github repository.
+App was created on Python3.6.6 and tested on Python3.7.5 (currently latest alpine:python docker image).
+That said there are two ways to install the app. You can either go with docker , or you can follow install from scratch instructions which are based on a CentOS non-container.
 
-For docker image - application was built upon python3:alpine image.
-If you are using docker image, you can skip to configuration section.
+### DOCKER
 
+For docker image - you can either build your own by utilizing Dockerfile:
+
+```
+docker build -t flansible Dockerfile
+```
+
+Or in case of any problems you can just pull an image from the Dockerhub repository:
+
+```
+docker pull dpilipovic/flansible:latest
+```
+
+If using docker, you can just skip to configuration section.
+
+### INSTALL FROM SCRATCH
 
 Our production setup is on Centos7, so instructions provided here are for this environment, but in general they apply for any linux distro although you would use a different package manager.
 
