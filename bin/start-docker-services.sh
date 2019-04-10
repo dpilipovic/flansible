@@ -1,6 +1,8 @@
 #!/bin/sh
-# Script to start docker services - first nginx
-nginx -g 'daemon off;'
+# Script to start docker services - first gunicorn uwsgi server which starts Flask app
+/opt/flansible/bin/start-flansible.sh &
 
-# and then gunicorn Uwsgi web server which start Flask application
-/opt/flansible/bin/start-flansible.sh
+# and then nginx proxy in front of it
+nginx -g 'daemon off;' 
+
+
