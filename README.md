@@ -34,7 +34,7 @@ There are no separate privilege levels between users, meaning that all authorize
 
 ## INSTALATION:
 
-App was created on Python3.6.6 and tested on Python3.7.5 (currently latest alpine:python docker image).
+App was created on Python3.6.6 and also tested on Python3.7.3 (currently latest alpine:python docker image).
 That said there are two ways to install the app. You can either go with docker , or you can follow install from scratch instructions which are based on a CentOS non-container.
 
 ### DOCKER
