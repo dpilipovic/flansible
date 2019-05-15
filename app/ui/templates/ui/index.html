@@ -26,6 +26,7 @@
 <div>
   <nav class="navbar navbar-dark bg-dark">
     <img src="/static/images/Logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+    <a class="navbar-brand" href="#" data-toggle="modal" id="navbar_admin_btn" value="navbar_admin_btn" data-target="#admin_modal">Admin</a>
     <a class="navbar-brand" href="{{url_for('restapi.register_api')}}">API</a>
     <a class="navbar-brand" href="{{url_for('ui.runhistory')}}">Run History</a>
     <a class="navbar-brand" href="{{url_for('ui.logout')}}">Logout</a>
@@ -94,6 +95,79 @@
                 $("#confirm-modal").modal("show");
             }
         </script>
+
+        <!-- Modal for Admin login -->
+        <div class="modal fade" id="admin_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header text-center">
+              <h4 class="modal-title w-100 font-weight-bold">Admin Login</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="{{ url_for('admin.admin_index') }}" method="POST" id="adminform">
+            <div class="modal-body mx-3">
+              <div class="md-form mb-5">
+                 <i class="fas fa-user prefix grey-text"></i>
+                <input type="username" name="username" id="username" placeholder="Admin username">
+              </div>
+
+              <div class="md-form mb-4">
+                  <i class="fas fa-lock prefix grey-text"></i>
+                  <input type="password" name="password" id="password" placeholder="Admin password">
+              </div>
+
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+              <input class="btn btn-secondary" type="submit" name="submit_button" value="Login">
+            </div>
+          </form>
+          </div>
+        </div>
+      </div>
+
+      {% if show_admin_modal %}
+      <!-- Modal for Admin login called upon redirect-->
+      <div class="modal fade" id="admin-modal-redirect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header text-center">
+            <h4 class="modal-title w-100 font-weight-bold">Admin Login</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="{{ url_for('admin.admin_index') }}" method="POST" id="adminform">
+          <div class="modal-body mx-3">
+            <div class="md-form mb-5">
+               <i class="fas fa-user prefix grey-text"></i>
+              <input type="username" name="username" id="username" placeholder="Admin username">
+            </div>
+
+            <div class="md-form mb-4">
+                <i class="fas fa-lock prefix grey-text"></i>
+                <input type="password" name="password" id="password" placeholder="Admin password">
+            </div>
+
+          </div>
+          <div class="modal-footer d-flex justify-content-center">
+            <input class="btn btn-secondary" type="submit" name="submit_button" value="Login">
+          </div>
+        </form>
+        </div>
+      </div>
+      </div>
+
+      <script>
+          $(document).ready(function(){
+              $("#admin-modal-redirect").modal('show');
+          });
+      </script>
+
+      {% endif %}
 
     </body>
 </html>

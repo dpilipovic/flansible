@@ -44,8 +44,12 @@
         <tr>
           <td>{{ item.user }}</td>
           <td>{{ item.type }}</td>
-          <td>{{ item.time_started }}</td>
-          <td>{{ item.time_completed }}</td>
+          <td>{{ item.time_started.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+          <td>{% if item.time_completed !=None %}
+          {{ item.time_completed.strftime('%Y-%m-%d %H:%M:%S') }}
+          {% else %}
+          None
+          {% endif %}</td>
           <td>{{ item.status }}</td>
           <td><a href="{{ url_for('ui.viewlog', logfile=item.logfile) }}">{{ item.logfile }}</a></td>
           <td>

@@ -48,6 +48,11 @@ ldap_manager = LDAP3LoginManager(app)          # Setup a LDAP3 Login Manager.
 def load_user(dn):
     return User.query.filter_by(dn=dn).first()
 
+""" Redirect unauthorized calls back to login page rather then giving them a 401 error """
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return redirect('/login')
+
 """ Declare The User Saver for Flask-Ldap3-Login This method is called whenever a LDAPLoginForm() successfully validates.
 Here you have to save the user, and return it so it can be used in the login controller. """
 @ldap_manager.save_user
@@ -67,6 +72,13 @@ def save_user(dn, username, data, memberships):
             db.session.add(user)
             db.session.commit()
         return user
+
+""" is_safe_url function is needed by Flask-Login to make sure that login redirect is not sent to a malicious site """
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and \
+           ref_url.netloc == test_url.netloc
 
 """ Load config from buttons.yml into a list of dictionaries called buttons , exit application if file is not a valid yaml: """
 yaml_file = os.path.join(app.config['APP_PATH'] + 'conf' + '/buttons.yml')

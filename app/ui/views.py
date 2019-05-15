@@ -9,7 +9,7 @@ from flask import render_template, flash, redirect, request, url_for, session, R
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_ldap3_login.forms import LDAPLoginForm
 
-from app import app, buttons, stream_template
+from app import app, buttons, stream_template, is_safe_url
 from app.ui.mailer_ui import send_email_ui
 # Import Class/DB tables from Models
 from app.database.models import Runhistory
@@ -27,34 +27,37 @@ ui_blueprint = Blueprint('ui', __name__, template_folder='templates/ui')
 def login():
     # Instantiate a LDAPLoginForm which has a validator to check if the user exists in LDAP.
     form = LDAPLoginForm(request.form)
-    if form.validate_on_submit():
-        if form.user:
-            login_user(form.user)
-            # Successfully logged in, We can now access the saved user object via form.user.
-            name = str(form.user).split(',')[0][3:]
-            app.logger.info('%s succesfully logged in!', name) # Log who logged in
-            return redirect('/')  # Send them home
-            #next_page = request.args.get('next')
-            #if not next_page or urlparse(next_page).netloc != '':
-        else:
-            error = True
-            name = str(form.username.data)
-            app.logger.warn('Invalid login attempt by user: %s !', name)
-            return render_template('login.html', form=form, error=error)
-    else:
-        name = str(form.username.data)
-        app.logger.warn('Invalid login attempt by user: %s !', name)
+    if request.method == 'GET':
         return render_template('login.html', form=form)
+    else:
+      if form.validate_on_submit():
+          if form.user:
+              login_user(form.user)
+              # Successfully logged in, We can now access the saved user object via form.user.
+              name = str(form.user).split(',')[0][3:]
+              app.logger.info('%s succesfully logged in!', name) # Log who logged in
+              next = request.args.get('next')
+              # is_safe_url from __init__.py should check if the url is safe for redirects.
+              # See http://flask.pocoo.org/snippets/62/ for an example.
+              if not is_safe_url(next):
+                return flask.abort(400)
+              return redirect(next or url_for('ui.index'))  # Send them home
+          else:
+              error = True
+              name = str(form.username.data)
+              app.logger.warn('Invalid login attempt by user: %s !', name)
+              return render_template('login.html', form=form, error=error)
+      else:
+          name = str(form.username.data)
+          app.logger.warn('Invalid login attempt by user: %s', name)
+          return render_template('login.html', form=form)
 
 @ui_blueprint.route('/', methods=['GET', 'POST'])
 def index():
-    #print(current_user)
     if not current_user or current_user.is_anonymous:
-    #    print('redirecting back to login', current_user)
         return redirect(url_for('ui.login'))
         # User is logged in so we can load home page in all it's beauty!
     return render_template("index.html", buttons=buttons)
-
 
 @ui_blueprint.route('/run', methods=['GET', 'POST'])
 @login_required
