@@ -2,12 +2,12 @@
 import re
 import logging
 
-from flask import render_template, flash, request, Blueprint
+from flask import render_template, redirect, url_for, flash, request, Blueprint
 from flask_login import current_user, login_required
 # Needed to auto-generate password hash it and salt it
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app import app
+from app import app, buttons
 from app.database.createdb import db
 from app.conf.config import COMPANY_INFO
 # Import Class/DB tables from Models
