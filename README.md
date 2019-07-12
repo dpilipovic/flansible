@@ -1,5 +1,6 @@
 # FLANSIBLE
 
+
 I ❤ Ansible a lot. Like a lot. 
 
 I also ❤ Flask. 
@@ -30,6 +31,28 @@ Validation/testing of playbooks.
 Assumption is that you will already test/validate and setup playbooks separately.
 
 There are no separate privilege levels between users, meaning that all authorized users will have access to all configured buttons.
+
+# Table of contents:
+
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [FLANSIBLE SUMMARY](#flansible)
+	- [INSTALATION](#instalation)
+		- [DOCKER](#docker)
+		- [INSTALL FROM SCRATCH](#install-from-scratch)
+		- [CODE AND REQUIREMENTS](#code-and-requirements)
+	- [CONFIGURATION](#configuration)
+		- [CONFIG.PY](#configpy)
+			- [SECRET KEYS](#secret-keys)
+			- [EMAIL CONFIG](#email-config)
+			- [ANSIBLE SSH CONFIG](#ansible-ssh-config)
+			- [LDAP CONFIG](#ldap-config)
+		- [BUTTONS.YML](#buttonsyml)
+		- [NGINX web server](#nginx-web-server)
+	- [USING APPLICATION](#using-application)
+
+<!-- /TOC -->
+
 
 
 ## INSTALATION:
@@ -165,7 +188,7 @@ There are 2 main files that need to be configured, and both are located under co
 
 Config.py is the main configuration file for the application. 
 
-#### SECRET_KEYs
+#### SECRET KEYS
 
 As a first thing you should change both SECRET_KEY and JWT_SECRET_KEY to some random values.
 
