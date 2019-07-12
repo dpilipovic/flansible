@@ -32,6 +32,10 @@ Assumption is that you will already test/validate and setup playbooks separately
 
 There are no separate privilege levels between users, meaning that all authorized users will have access to all configured buttons.
 
+# Diagram:
+
+![alt text](https://github.com/dpilipovic/flansible/blob/master/images/Flansible1.png)
+
 # Table of contents:
 
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
