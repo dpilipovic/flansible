@@ -7,6 +7,8 @@ I also ❤ Flask.
 
 So once the need and opportunity came up I've decided to create my own Flask powered Ansible UI and API.
 
+Note - this is a simpler version of this app with just UI and API. If you require a Scheduler functionality - to be able to schedule tasks that execute ansible playbooks within application take a look here: https://github.com/dpilipovic/flansible-with-scheduler
+
 Main idea behind it was to popularize use of Ansible for automation tasks within my place of employment. 
 
 It became super easy for NOC people in the night shift to act upon various otherwise complex set of operations with a simple click of the button.
