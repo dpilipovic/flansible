@@ -36,6 +36,14 @@ There are no separate privilege levels between users, meaning that all authorize
 
 ![alt text](https://github.com/dpilipovic/flansible/blob/master/images/Flansible1.png)
 
+
+# DB schema:
+
+![alt text](https://github.com/dpilipovic/flansible/blob/master/images/DBschema-flansible.png)
+
+
+
+
 # Table of contents:
 
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
