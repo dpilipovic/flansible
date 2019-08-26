@@ -44,7 +44,9 @@ There are no separate privilege levels between users, meaning that all authorize
 ![alt text](https://github.com/dpilipovic/flansible/blob/master/images/DBschema-flansible.PNG)
 
 
+# Code layout:
 
+![alt text](https://github.com/dpilipovic/flansible/blob/master/images/code.PNG)
 
 # Table of contents:
 
