@@ -13,7 +13,7 @@ gunicorn==19.9.0
 Jinja2==2.10.1
 ldap3==2.5.1
 cryptography==2.4.2
-paramiko==2.4.2
+paramiko==2.10.1
 pyasn1==0.4.4
 pycparser==2.19
 PyJWT==1.4.2
